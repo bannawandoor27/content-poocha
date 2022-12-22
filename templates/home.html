@@ -39,7 +39,7 @@
   
 <!-- start of sidenav -->
 <aside><div class="sidenav position-sticky d-flex flex-column justify-content-between">
-    <a class="navbar-brand" href="index.html" class="logo">
+    <a class="navbar-brand" href="{% url 'home' %}" class="logo">
         <img src="{% static 'images/logo.webp' %}" alt="" style="border-radius: 3rem;">
     </a>
     <!-- end of navbar-brand -->
@@ -105,7 +105,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-6">
-                <a href="index.html">
+                <a href="{% url 'home' %}">
                     <img src="{% static 'images/logo.png' %}" alt="">
                 </a>
             </div>
@@ -121,11 +121,27 @@
 <!-- end of mobile-nav -->
 
         <div class="container pt-4 mt-5">
+            <div class="row">
+                <div class="col-lg-5 col-md-8">
+                    <form class="search-form" action="{% url 'search' %}" method="GET">
+                        <div class="input-group">
+                            <input type="search" class="form-control bg-transparent shadow-none rounded-0" placeholder="Search here" name="search_key">
+                            <div class="input-group-append">
+                                <button class="btn" type="submit">
+                                    <span class="fas fa-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="row justify-content-between">
                 <div class="col-lg-7">
-                    {% for blog in blogs %}
+                    
+                    {% if results %}
+                    {% for blog in results %}
                     <div class="card post-item bg-transparent border-0 mb-5">
-                        <a href="p{% url 'post_details' blog.id%}">
+                        <a href="{% url 'post_details' blog.id%}">
                             <img class="card-img-top rounded-0" src="{{ blog.image.url }}" alt="">
                         </a>
                         <div class="card-body px-0">
@@ -147,6 +163,32 @@
                         </div>
                     </div>
                     {% endfor %}
+                     {% else %}   
+                    {% for blog in blogs %}
+                    <div class="card post-item bg-transparent border-0 mb-5">
+                        <a href="{% url 'post_details' blog.id%}">
+                            <img class="card-img-top rounded-0" src="{{ blog.image.url }}" alt="">
+                        </a>
+                        <div class="card-body px-0">
+                            <h2 class="card-title">
+                                <a class="text-white opacity-75-onHover" href="{% url 'post_details' blog.id%}">{{blog.heading|capfirst}}</a>
+                            </h2>
+                            <ul class="post-meta mt-3">
+                                <li class="d-inline-block mr-3">
+                                    <span class="fas fa-clock text-primary"></span>
+                                    <a class="ml-1" href="#">{{blog.created_at|date:"j F Y"}}</a>
+                                </li>
+                                <li class="d-inline-block">
+                                    <span class="fas fa-list-alt text-primary"></span>
+                                    <a class="ml-1" href="#">{{blog.category|capfirst}}</a>
+                                </li>
+                            </ul>
+                            <p class="card-text my-4">{{blog.description|truncatechars:300}}</p>
+                            <a href="{% url 'post_details' blog.id%}" class="btn btn-primary">Read More <img src="{% static 'images/arrow-right.png'  %}" alt=""></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                     <!-- end of post-item -->
                     
                     
