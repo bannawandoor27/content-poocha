@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <meta charset="utf-8">
@@ -14,7 +15,7 @@
     <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.css' %}">
 
     <!-- Main Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
     <!--Favicon-->
     <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
@@ -36,14 +37,14 @@
 <!-- start of sidenav -->
 <aside><div class="sidenav position-sticky d-flex flex-column justify-content-between">
     <a class="navbar-brand" href="index.html" class="logo">
-        <img src="{% static 'images/logo.png' %}" alt="">
+        <img src="{% static 'images/logo.webp' %}" alt="" style="border-radius: 3rem;">
     </a>
     <!-- end of navbar-brand -->
 
     <div class="navbar navbar-dark my-4 p-0 font-primary">
         <ul class="navbar-nav w-100">
             <li class="nav-item ">
-                <a class="nav-link text-white px-0 pt-0" href="index.html">Home</a>
+                <a class="nav-link text-white px-0 pt-0" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link text-white px-0" href="about.html">About</a>
@@ -134,25 +135,28 @@
                 
                 <div class="row justify-content-between">
                     <div class="col-lg-10">
-                        <img class="img-fluid" src="{% static 'images/post/post-single/01.png' %}" alt="">
-                        <h1 class="text-white add-letter-space mt-4">Id reprehenderit mollit in tempor naidala incididunt cupidatat consec turades</h1>
+                        <img class="img-fluid" src="{{data.image.url}}" alt="">
+                        <h1 class="text-white add-letter-space mt-4">{{data.heading|capfirst}}</h1>
                         <ul class="post-meta mt-3 mb-4">
                             <li class="d-inline-block mr-3">
                                 <span class="fas fa-clock text-primary"></span>
-                                <a class="ml-1" href="#">24 April, 2016</a>
+                                <a class="ml-1" href="#">{{data.created_at|date:"j F Y"}}</a>
                             </li>
                             <li class="d-inline-block">
                                 <span class="fas fa-list-alt text-primary"></span>
-                                <a class="ml-1" href="#">Photography</a>
+                                <a class="ml-1" href="#">{{data.category|capfirst}}</a>
                             </li>
                         </ul>
 
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Metus cum cursus nunc nec velit volutpat consequat. Vitae dui, massa viverra nam dui laoreet ipsum. Sagittis sed feugiat blandit adipiscing mauris. Facilisis dictum in tellus ac turpis. Pretium, facilisis turpis duis pulvinar blandit est. Dolor accumsan pellentesque ullamcorper volutpat urna arcu. Nisi nulla et mauris et, ultricies odio semper gravida. Justo, lorem leo ullamcorper leo ornare phasellus. Dolor tristique sem quam eget tempor aliquet sem amet, eget. Vitae id mattis consectetur gravida sit lorem donec.</p>
-                        <p>Phasellus enim sodales congue varius arcu et, pulvinar ultrices. Faucibus nulla massa erat ut. Egestas integer pharetra proin pellentesque tellus quis pulvinar mauris. Sed quisque pellentesque platea vel. Proin felis tellus nunc risus tortor, nibh. Vulputate mauris fermentum tincidunt diam sed. Vel interdum nisl, pellentesque ante consectetur. At praesent lorem placerat nibh nunc. Massa lectus id et amet quam venenatis, in mus. Arcu cras risus est porttitor tincidunt posuere feugiat. Sem velit ornare id duis Amet nullam eget mus diam nisl, vel. Sed at id quam bibendum lacus felis. Porta arcu, nunc ultricies </p>
+                        <p>{{data.description}}</p>
 
                         <div class="blockquote bg-dark my-5">
-                            <p class="blockquote-text pl-2">A wise girls knows her limit to touch sky.Rpelat sapiesd praesentium adipisci.The question me an idea so asered</p>
-                            <span class="blockquote-footer text-white h4 mt-3">James Hopkins</span>
+                            <p class="blockquote-text pl-2">{{data.highlights}}</p>
+                          
+                          {% comment %}
+                          <span class="blockquote-footer text-white h4 mt-3">James Hopkins</span>
+                          {% endcomment %}
+                              
                         </div>
 
                         <div class="widget">
