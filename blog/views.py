@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+import pywhatkit
 from .models import BlogData
 from django.db.models import Q
+from django.core.mail import EmailMessage
 # Create your views here.
 
 def home(request):
@@ -24,7 +26,26 @@ def search(request):
             search_result = BlogData.objects.order_by('-created_at').filter(Q(heading__icontains=search_key)|Q(description__icontains=search_key)|Q(category__icontains=search_key))
     else:
         pass
+    if not search_result:
+        message = 'Ugh..Its seems like I haven\'t put anything like that yet!'
+    else:
+        message = ''
     context = {
-        'results':search_result
+        'results':search_result,
+        'message':message
     }
     return render(request,'home.html',context)
+
+def contact(request):
+    return render(request,'blog/contact.html')
+
+def subscribe(request):
+    if request.method  == 'GET':
+       to_email = request.GET['email']
+       mail_subjectt = 'Subscription confirmation'
+       message = '''
+       Hello! content pooocha heren, Thank you for subscribing             '''
+       send_mail = EmailMessage(mail_subjectt,message,to=[to_email])
+       send_mail.send()
+    return redirect('home')
+
