@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-import pywhatkit
+
 from .models import BlogData
 from django.db.models import Q
 from django.core.mail import EmailMessage
